@@ -4,14 +4,12 @@ import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dto.Tweet;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-
 import static ca.jrvs.apps.twitter.example.JsonParser.toObjectFromJson;
 
 
@@ -24,7 +22,6 @@ public class TwitterRestDao implements CrdRepository<Tweet, String> {
     private static final String QUERY_SYM = "?";
     private static final String AMPERSAND = "&";
     private static final String EQUAL = "=";
-
     private static final int HTTP_OK = 200;
     private HttpHelper httpHelper;
 
@@ -60,7 +57,6 @@ public class TwitterRestDao implements CrdRepository<Tweet, String> {
         appendQueryParam(sb, "status", URLEncoder.encode(text, StandardCharsets.UTF_8.name()), true);
         appendQueryParam(sb, "long", longitude.toString(), false);
         appendQueryParam(sb, "lat", latitude.toString(), false);
-
         return new URI(sb.toString());
     }
 
@@ -73,12 +69,11 @@ public class TwitterRestDao implements CrdRepository<Tweet, String> {
     }
 
     /**
-     * Check response status code Convert Response Entity to Tweet
+     * Convert Response Entity to Tweet
      */
     protected Tweet parseResponseBody(HttpResponse response, Integer expectedStatusCode) {
 
         Tweet tweet = null;
-
         //Check response status
         int status = response.getStatusLine().getStatusCode();
         System.out.println(status);
@@ -92,36 +87,31 @@ public class TwitterRestDao implements CrdRepository<Tweet, String> {
             throw new RuntimeException("Unexpected HTTP status:" + status);
         }
 
-
         if (response.getEntity() == null) {
             throw new RuntimeException("Empty response body");
         }
-
+        
         //Convert Response Entity to str
         String jsonStr;
         try {
-
             jsonStr = EntityUtils.toString(response.getEntity());
-            //System.out.println(jsonStr);
-
         } catch (IOException e) {
             throw new RuntimeException("Failed to convert entity to String", e);
         }
 
-        //Deser JSON string to Tweet object
+        //Convert JSON string to Tweet object
         try {
 
             tweet = (Tweet) toObjectFromJson(jsonStr, Tweet.class);
         } catch (IOException e) {
             throw new RuntimeException("Unable to convert JSON str to Object", e);
         }
-
         return tweet;
     }
 
     @Override
     public Tweet findbyId(String id) {
-        //Construct URI
+        //Construct the URI
         URI uri;
         try {
             uri = getShowUri(id);
@@ -129,7 +119,7 @@ public class TwitterRestDao implements CrdRepository<Tweet, String> {
             throw new IllegalArgumentException("Unable to construct URI", e);
         }
 
-        //Execute HTTP Request
+        //Execute HTTP GET Request
         HttpResponse response = null;
         try {
             response = httpHelper.httpGet(uri);
@@ -137,7 +127,7 @@ public class TwitterRestDao implements CrdRepository<Tweet, String> {
             e.printStackTrace();
         }
 
-        //Validate response and deser response to Tweet object
+        //Validate response and parse response to Tweet object
         return parseResponseBody(response, HTTP_OK);
     }
 
@@ -151,7 +141,7 @@ public class TwitterRestDao implements CrdRepository<Tweet, String> {
             throw new IllegalArgumentException("Unable to construct URI", e);
         }
 
-        //Execute HTTP Request
+        //Execute HTTP  POST Request
         HttpResponse response = null;
         try {
             response = httpHelper.httpPost(uri);
@@ -159,12 +149,11 @@ public class TwitterRestDao implements CrdRepository<Tweet, String> {
             e.printStackTrace();
         }
 
-        //Validate response and deser response to Tweet object
+        //Validate response and parse response to Tweet object
         return parseResponseBody(response, HTTP_OK);
     }
-
-    /**
-     * e.g. https://api.twitter.com/1.1/statuses/destroy/240854986559455234.json
+    /**Input tweet id to delete the specified tweet 
+     * e.g. https://api.twitter.com/1.1/statuses/destroy/240854986556445987.json
      */
     protected URI getDeleteUri(String id) throws URISyntaxException {
         StringBuilder sb = new StringBuilder();
