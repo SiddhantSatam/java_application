@@ -5,40 +5,54 @@ import java.sql.SQLException;
 
 public class JDBCExecutor {
 
-    public static void main(String[] args) {
-        DatabaseConnectionManager dcm = new DatabaseConnectionManager("localhost","hplussport",
-                "postgres","password");
+    public static void main(String... args) {
+        DataConnectionManager dcm = new DataConnectionManager("localhost",
+                "hplussport", "postgres", "password");
 
-        try{
+        try {
             Connection connection = dcm.getConnection();
-            CustomerDAO customerDAO = new CustomerDAO(connection);
-            Customer customer = new Customer();
-
-            /** For CRUD operations
-             * customer.setFirstName("Suchita");
-            customer.setLastName("Satam");
-            customer.setEmail("s.satam@gmail.com");
-            customer.setAddress("26 Zealand road");
-            customer.setCity("Etobicoke");
-            customer.setState("ON");
-            customer.setPhone("9726454985");
-            customer.setZipCode("M9N4A1");
-
-            Customer dbCustomer = customerDAO.create(customer);
-            System.out.println(dbCustomer);
-            dbCustomer = customerDAO.findById(dbCustomer.getId());
-            System.out.println(dbCustomer);
-            dbCustomer.setEmail("suchita@gmail.com");
-            dbCustomer = customerDAO.update(dbCustomer);
-            System.out.println(dbCustomer);
-            customerDAO.delete(dbCustomer.getId());*/
-
-            OrderDAO orderDAO = new OrderDAO(connection);
-            Order order = orderDAO.findById(1002);
-            System.out.println(order);
-        }catch(SQLException e){
-            e.printStackTrace();
+            Customer customer;
+                    switch (args[0]) {
+                case "create":
+                    customer = new Customer();
+                    customer.setFirstName(args[1]);
+                    customer.setLastName(args[2]);
+                    customer.setEmail(args[3]);
+                    customer.setPhone(args[4]);
+                    customer.setAddress(args[5]);
+                    customer.setCity(args[6]);
+                    customer.setState(args[7]);
+                    customer.setZipCode(args[8]);
+                    System.out.println(new CustomerDAO(connection).create(customer));
+                    break;
+                case "update":
+                    customer = new Customer();
+                    customer.setId(Long.getLong(args[1]));
+                    customer.setFirstName(args[2]);
+                    customer.setLastName(args[3]);
+                    customer.setEmail(args[4]);
+                    customer.setPhone(args[5]);
+                    customer.setAddress(args[6]);
+                    customer.setCity(args[7]);
+                    customer.setState(args[8]);
+                    customer.setZipCode(args[9]);
+                    System.out.println(new CustomerDAO(connection).update(customer));
+                    break;
+                case "read":
+                    System.out.println(new CustomerDAO(connection).findById(Long.getLong(args[1])));
+                    break;
+                case "order":
+                    System.out.println(new OrderDAO(connection).findById(Integer.valueOf(args[1])));
+                    break;
+                case "delete":
+                    new CustomerDAO(connection).delete(Long.getLong(args[1]));
+                 break;
+                default:
+                    System.out.println("Usage: create|update|read|order|delete");
+            } catch (SQLException e) {
+                e.printStackTrace();
         }
 
     }
+
 }
