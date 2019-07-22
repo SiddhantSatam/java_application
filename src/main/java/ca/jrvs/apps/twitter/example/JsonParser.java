@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,16 +67,10 @@ public class JsonParser {
      */
     public static String toJson(Object object) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
         return mapper.writeValueAsString(object);
-
-
     }
-
-
     /**
      * Parse JSON string to a object
      *
@@ -93,8 +86,6 @@ public class JsonParser {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return (T) mapper.readValue(json, clazz);
-
-
     }
 
     public static void main(String[] args) throws IOException {
@@ -107,12 +98,8 @@ public class JsonParser {
         myFina.setTotalRevenue(12222);
         financials.add(myFina);
         myCompany.setFinancials(financials);
-
         Company newComp = toObjectFromJson(str, Company.class);
-
         System.out.println(toJson(newComp));
         System.out.println(toJson(myCompany));
     }
-
-
 }
