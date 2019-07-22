@@ -1,6 +1,6 @@
 package ca.jrvs.apps.twitter.Service;
 
-import ca.jrvs.apps.twitter.dao.CrdRepo;
+import ca.jrvs.apps.twitter.dao.CrdRepository;
 import ca.jrvs.apps.twitter.dto.Tweet;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -12,7 +12,7 @@ public class TwitterServiceImpTest {
 
     @Test
     public void postTweet() {
-        CrdRepo Mockdao = Mockito.mock(CrdRepo.class);
+        CrdRepository Mockdao = Mockito.mock(CrdRepo.class);
         TwitterService service = new TwitterServiceImp(Mockdao);
         Tweet mockTweet = new Tweet();
         mockTweet.setText("Mockito Tweet");
