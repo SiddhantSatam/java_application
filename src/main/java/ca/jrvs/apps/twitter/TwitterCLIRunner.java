@@ -1,41 +1,44 @@
 package ca.jrvs.apps.twitter;
 
-import ca.jrvs.apps.twitter.dao.CrdRepository;
-import ca.jrvs.apps.twitter.service.TwitterService;
+import ca.jrvs.apps.twitter.Service.TwitterService;
+import ca.jrvs.apps.twitter.dao.CrdRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TwitterCLIRunner {
 
-    public static CrdRepository dao;
+    public static CrdRepo dao;
     private TwitterService service;
 
-    public TwitterCLIRunner(CrdRepository dao) {
-     this.dao = dao;
+    public TwitterCLIRunner(CrdRepo dao) {
+        this.dao = dao;
     }
+
+    @Autowired
     public TwitterCLIRunner(TwitterService service) {
         this.service = service;
     }
 
-     public void run(String[] args) {
-         if (args[0].compareTo("post") == 0) {
-             parseAndPost(args);
-         } else if (args[0].compareTo("delete") == 0) {
-             deleteTweet(args);
-         } else if (args[0].compareTo("show") == 0) {
-             showTheTweet(args);
-         } else {
-             System.out.println("Usage is...post|show|delete");
-         }
-     }
+    public void run(String[] args) {
+        if (args[0].compareTo("post") == 0) {
+            parseAndPost(args);
+        } else if (args[0].compareTo("delete") == 0) {
+            deleteTweet(args);
+        } else if (args[0].compareTo("show") == 0) {
+            showTheTweet(args);
+        } else {
+            System.out.println("Usage...post|show|delete");
+        }
+    }
 
     protected void parseAndPost(String[] args) {
         if (args.length != 3) {
-
             throw new RuntimeException("USAGE ... post|text|lat:lon");
         }
 
         String text = args[1];
         String[] coord = args[2].split(":");
-
         double lati = Double.parseDouble(coord[0]);
         double longi = Double.parseDouble(coord[1]);
 
@@ -52,7 +55,6 @@ public class TwitterCLIRunner {
             throw new RuntimeException("USAGE ... show|id");
         }
         id = args[1];
-
         service.showTweet(id, null);
     }
 
@@ -65,4 +67,5 @@ public class TwitterCLIRunner {
         service.deleteTweets(id);
 
     }
+
 }
