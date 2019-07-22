@@ -1,7 +1,6 @@
 package ca.jrvs.apps.jdbc;
 
 import ca.jrvs.apps.jdbc.util.DataAccessObject;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,10 +24,8 @@ public class OrderDAO extends DataAccessObject<Order> {
     public Order findById(long id) {
         Order order = new Order();
         try (PreparedStatement statement = this.connection.prepareStatement(sqlStatement);) {
-
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-
             while (rs.next()) {
                 order.setCustFN(rs.getString(1));
                 order.setCustLN(rs.getString(2));
@@ -47,15 +44,12 @@ public class OrderDAO extends DataAccessObject<Order> {
                 order.setProdSize(rs.getInt(14));
                 order.setProdPrice(rs.getInt(16));
                 order.setOrderID(id);
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-
         return order;
-
     }
 
     @Override
