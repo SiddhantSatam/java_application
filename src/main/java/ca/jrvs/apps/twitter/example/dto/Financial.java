@@ -2,9 +2,6 @@ package ca.jrvs.apps.twitter.example.dto;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "reportDate",
@@ -103,15 +100,5 @@ public class Financial {
     @JsonProperty("netIncome")
     public void setNetIncome(Integer netIncome) {
         this.netIncome = netIncome;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 }
