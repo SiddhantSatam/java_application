@@ -8,7 +8,7 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * `@SpringBootApplication` helps you add all of the following annotations:
+ * "@SpringBootApplication" helps you add all of the following annotations:
  * - @Configuration
  * - @EnableAutoConfiguration
  * - @ComponentScan
@@ -22,18 +22,16 @@ public class TwitterCLISpringBoot implements CommandLineRunner {
     public TwitterCLISpringBoot(TwitterCLIRunner runner) {
         this.runner = runner;
     }
-
-    public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(TwitterCLISpringBoot.class);
-
-        //Turn off web
-        app.setWebApplicationType(WebApplicationType.NONE);
-        app.run(args);
-    }
-
+    
     @Override
     public void run(String... args) throws Exception {
         runner.run(args);
     }
 
+    public static void main(String[] args) {
+        SpringApplication app = new SpringApplication(TwitterCLISpringBoot.class);
+        //Turn off the web application
+        app.setWebApplicationType(WebApplicationType.NONE);
+        app.run(args);
+    }
 }
