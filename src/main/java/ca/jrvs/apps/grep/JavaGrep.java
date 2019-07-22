@@ -4,27 +4,59 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public interface JavaGrep{
+public interface JavaGrep {
+    /**
+     * Searching flow
+     *
+     * @throws IOException
+     */
+    void process() throws IOException;
 
-        void process() throws IOException;
+    /**
+     * Traverse a given directory and return all files
+     *
+     * @param rootDir i.e: input directory
+     * @retun files under the rootDir
+     */
 
-        List<File> listFiles(String rootDir);
+    List<File> listFiles(String rootDir); // listFiles is a function
 
-        List<String> readLines(File inputFile) throws IOException;
+    /**
+     * Read a file and return all the lines.
+     *
+     * @param inputFile the file being read.
+     * @return all the lines inside the file.
+     * @throws IllegalArgumentException if inputFile does not exist.
+     */
+    List<String> readLines(File inputFile) throws IOException;
 
-        boolean containsPattern(String line);
+    /**
+     * Check if line contains the regex pattern.
+     *
+     * @param line the string being checked.
+     * @return true when the line matches the regex.
+     */
+    Boolean containsPattern(String line);
 
-        void writeToFile(List<String> lines) throws IOException;
+    /**
+     * Write lines to file.
+     *
+     * @param lines matched
+     * @throws IOException if write failed
+     */
 
-        String getRootPath();
+    void writeToFile(List<String> lines) throws IOException;
 
-        void setRootPath(String rootPath);
+    String getRootPath();
 
-        String getRegex();
+    void setRootPath(String rootPath);
 
-        void setRegex(String regex);
+    String getRegex();
 
-        String getOutFile();
+    void setRegex(String regex);
 
-        void setOutFile(String outFile);
+    String getOutFile();
+
+    void setOutFile(String outFile);
+
 }
