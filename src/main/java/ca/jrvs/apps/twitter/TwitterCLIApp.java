@@ -14,10 +14,8 @@ public class TwitterCLIApp {
         HttpHelper httpHelper = new ApacheHttpHelper();
         CrdRepository dao = new TwitterRestDao(httpHelper);
         TwitterService service = new TwitterServiceImp(dao);
-
         //Create Runner
         TwitterCLIRunner runner = new TwitterCLIRunner(service);
-
         //Run Application
         runner.run(args);
     }
