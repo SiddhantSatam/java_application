@@ -13,8 +13,7 @@ import org.springframework.context.annotation.Bean;
 
 @Configuration
 public class TwitterCLIBean {
-
-
+    
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(TwitterCLIBean.class);
         TwitterCLIRunner runner = context.getBean(TwitterCLIRunner.class);
@@ -40,5 +39,4 @@ public class TwitterCLIBean {
     HttpHelper helper() {
         return new ApacheHttpHelper();
     }
-
 }
