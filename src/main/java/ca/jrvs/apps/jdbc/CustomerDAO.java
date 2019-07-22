@@ -1,13 +1,11 @@
 package ca.jrvs.apps.jdbc;
 
 import ca.jrvs.apps.jdbc.util.DataAccessObject;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
 import static org.postgresql.jdbc.EscapedFunctions.INSERT;
 
 public class CustomerDAO extends DataAccessObject<Customer> {
@@ -37,7 +35,6 @@ public class CustomerDAO extends DataAccessObject<Customer> {
                 customer.setCity(rs.getString("city"));
                 customer.setState(rs.getString("state"));
                 customer.setZipCode(rs.getString("zipcode"));
-
             }
         }catch(SQLException e){
             e.printStackTrace();
