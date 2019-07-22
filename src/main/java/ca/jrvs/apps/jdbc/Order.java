@@ -1,16 +1,10 @@
 package ca.jrvs.apps.jdbc;
 
 import ca.jrvs.apps.jdbc.util.DataTransferObject;
-
 import java.util.Date;
 
 public class Order implements DataTransferObject {
-    /**
-     * SELECT  c.first_name, c.last_name, c.email, o.order_id,  o.creation_date, o.total_due,
-     * o.status,  s.first_name, s.last_name, s.email,  ol.quantity,  p.code, p.name, p.size, p.variety,
-     * p.pricefrom orders ojoin customer c on o.customer_id = c.customer_idjoin salesperson s
-     * ono.salesperson_id=s.salesperson_idjoin order_item ol on ol.order_id=o.order_idjoin product p on ol.product_id = p.product_idwhere o.order_id = ?;
-     */
+ 
     private String custFN;
     private String custLN;
     private String cust_email;
